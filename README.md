@@ -1,4 +1,4 @@
-Swaramanjusha - Treasury of Notes
+**Swaramanjusha - Treasury of Notes**
 
 Swaramanjusha is a secure, aesthetically designed web application dedicated to Indian Classical Music. It serves as a digital treasury for musical notes, providing a fluid and responsive interface for artists and enthusiasts.
 
