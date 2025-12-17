@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Artist Details - Swaramanjusha">
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self' https://swaramanjusha.eu.org; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.google-analytics.com https://apis.google.com https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://www.google.com https://recaptcha.google.com https://swaramanjusha-login.firebaseapp.com; img-src 'self' data: https://placehold.co https://www.google.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://www.googleapis.com https://swaramanjusha-login.firebaseapp.com https://swaramanjusha-login.firebasestorage.app https://www.google-analytics.com https://cloudflareinsights.com https://www.gstatic.com https://www.soundhelix.com; media-src 'self' https://www.soundhelix.com; worker-src 'self' blob:;">
+    <title>Swaramanjusha - Artist Details</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://identitytoolkit.googleapis.com">
+    <link rel="preconnect" href="https://swaramanjusha-login.firebaseapp.com">
+    <link rel="preconnect" href="https://www.googleapis.com">
+
+    <link rel="preload"
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;800&display=swap"
+        as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Inter:wght@400;500;600;800&display=swap">
+    </noscript>
+
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .artist-hero {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            max-width: 900px;
+            padding: 20px;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .artist-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--glass-border);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .artist-info {
+            flex: 1;
+            text-align: left;
+        }
+
+        .artist-name {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .artist-bio {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .songs-list {
+            margin-top: 40px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .song-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--glass-fill);
+            border: 1px solid var(--glass-border);
+            padding: 16px 24px;
+            margin-bottom: 12px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.2s;
+        }
+
+        .song-item:hover {
+            transform: scale(1.01);
+            background: var(--glass-highlight);
+        }
+
+        .song-details {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .play-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: var(--accent-color);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .song-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .song-meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .download-btn {
+            background: none;
+            border: 1px solid var(--glass-border);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .download-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .artist-hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .artist-info {
+                text-align: center;
+            }
+        }
+
+        /* Player Bar */
+        #fixed-player {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            padding: 15px 40px;
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 2000;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        #fixed-player.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="blobs-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <header class="glass-header">
+        <a href="index.html" class="logo">
+            <img src="logo.jpg" alt="Logo" class="logo-icon" width="40" height="40">
+            Swaramanjusha
+        </a>
+        <button class="mobile-toggle" id="mobile-toggle-btn"><svg viewBox="0 0 24 24">
+                <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path>
+            </svg></button>
+        <nav class="nav-links" id="nav-menu">
+            <a href="index.html" class="nav-link">Home</a>
+            <a href="artists.html" class="nav-link active-page">Artists</a>
+            <a href="#about-us" class="nav-link">About Us</a>
+            <div id="auth-container" class="profile-container">
+                <a href="login.html" id="login-link" class="nav-link nav-btn">Login / Signup</a>
+                <button id="profile-btn" class="nav-link nav-btn"
+                    style="display: none; align-items: center; gap: 8px;">Profile</button>
+                <div id="profile-dropdown" class="profile-dropdown">
+                    <div id="user-email-drop" class="user-email-display">user@example.com</div>
+                    <a href="profile.html" class="dropdown-item">My Account</a>
+                    <button id="logout-btn-drop" class="dropdown-item" style="color: #ff3b30;">Logout</button>
+                </div>
+            </div>
+            <label class="switch"><input type="checkbox" id="theme-toggle" checked><span class="slider"></span></label>
+        </nav>
+    </header>
+
+    <main>
+        <div class="artist-hero" id="artist-loading">
+            Loading Artist...
+        </div>
+
+        <div id="artist-content" style="display:none; flex-direction:column; align-items:center; width:100%;">
+            <div class="artist-hero">
+                <img id="artist-img" src="" alt="Artist" class="artist-image">
+                <div class="artist-info">
+                    <h1 id="artist-name" class="artist-name">Artist Name</h1>
+                    <p id="artist-bio" class="artist-bio">Bio goes here...</p>
+                    <button class="btn btn-solid"
+                        onclick="document.querySelector('.songs-list').scrollIntoView({behavior:'smooth'})">Listen
+                        Now</button>
+                </div>
+            </div>
+
+            <div class="songs-list" id="songs-list">
+                <!-- Songs injected here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Fixed Player -->
+    <div id="fixed-player">
+        <div style="display:flex; align-items:center; gap:15px; color:white;">
+            <button id="fp-play-pause" style="background:none; border:none; color:white; cursor:pointer;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </button>
+            <div>
+                <div id="fp-title" style="font-weight:600;">Song Title</div>
+                <div id="fp-artist" style="font-size:12px; opacity:0.7;">Artist</div>
+            </div>
+        </div>
+        <audio id="audio-element"></audio>
+        <input type="range" id="fp-progress" value="0" style="flex:1; margin:0 20px;">
+        <div id="fp-time" style="color:white; font-size:12px;">00:00 / 00:00</div>
+    </div>
+
+    <!-- JS MODULES -->
+    <script type="module">
+        import { initUI } from "./assets/js/ui.js";
+        import { initArtistPage } from "./assets/js/artist-details.js";
+
+        initUI();
+        initArtistPage();
+
+        // Defer Auth UI
+        window.addEventListener('load', () => {
+            import("./assets/js/auth-ui.js").then(module => {
+                module.initAuthUI();
+            });
+        });
+    </script>
+</body>
+
+</html>

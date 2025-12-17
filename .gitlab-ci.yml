@@ -1,0 +1,15 @@
+stages:
+  - build
+  - deploy
+
+job:
+  stage: build
+  script:
+    - echo "Building..."
+
+deploy-job:      # This job runs in the deploy stage.
+  stage: deploy  # It only runs when the build job completes successfully.
+  environment: production
+  script:
+    - echo "Deploying application..."
+    - echo "Application successfully deployed."

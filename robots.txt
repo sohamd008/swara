@@ -1,0 +1,40 @@
+# 1. General Rules for All Search Engines (Google, Bing, etc.)
+User-agent: *
+# Allow crawling of the site
+Allow: /
+# Block sensitive areas (Standard best practice)
+Disallow: /admin/
+Disallow: /login/
+# Fix: Correct wildcard syntax for allowing resources
+Allow: /*.js
+Allow: /*.css
+
+# 2. Block AI Training Bots (Replaces "ai-train=no")
+
+# Block OpenAI (ChatGPT)
+User-agent: GPTBot
+Disallow: /
+
+# Block Google's AI training (Gemini/Bard) - Allows Search
+User-agent: Google-Extended
+Disallow: /
+
+# Block Common Crawl (Data source for many AI models)
+User-agent: CCBot
+Disallow: /
+
+# Block Anthropic (Claude)
+User-agent: ClaudeBot
+Disallow: /
+
+# Block Apple's AI Bot
+User-agent: Applebot-Extended
+Disallow: /
+
+# Block Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# 3. Sitemap Location
+# REPLACE the URL below with your actual sitemap address
+Sitemap: https://www.yourwebsite.com/sitemap.xml
